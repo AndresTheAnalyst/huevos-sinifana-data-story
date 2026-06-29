@@ -4,7 +4,7 @@
 
 # Huevos Sinifana SAS — Data Story
 
-**6 lotes de gallina ponedora · ~6 años · una granja en Caldas–Antioquia, Colombia**
+**6 lotes de gallina ponedora · 8 años (2016–2023) · una granja en Caldas–Antioquia, Colombia**
 
 *La gallina pone bien. El que no ves trabajar es tu margen.*
 *The hen lays just fine. The one you never watch working is your margin.*
@@ -19,7 +19,7 @@
 
 ## De qué se trata
 
-Caso real de análisis de datos sobre **6 lotes de gallina ponedora** (G1–G6) de **Huevos Sinifana SAS**, ~2016–2022. A partir de registros de producción reales, facturas de alimento, salarios y precios de mercado, reconstruí el **costo y el margen por huevo** de cada lote y lo convertí en un **dashboard interactivo** que cualquiera —sepa o no de avicultura— puede entender.
+Caso real de análisis de datos sobre **6 lotes de gallina ponedora** (G1–G6) de **Huevos Sinifana SAS** (mi propia operación avícola), 2016–2023. A partir de registros de producción reales, facturas de alimento, salarios y precios de mercado, reconstruí el **costo y el margen por huevo** de cada lote y lo convertí en un **dashboard interactivo** que cualquiera —sepa o no de avicultura— puede entender.
 
 > 🔗 **Dashboard en vivo:** **https://huevos-sinifana-data-story.streamlit.app/**
 > ▶️ **Correr local:** `streamlit run app/app.py`
@@ -57,7 +57,7 @@ Cuatro vistas interactivas, bilingües (ES/EN):
 
 - **Producción:** registros semanales reales por lote (postura, mortalidad, huevos, alimento).
 - **Costo por huevo:** modelo de 7 rubros. La **nómina y servicios** (costo fijo de la granja) se reparten entre la producción real de cada día → los lotes que corrieron al tiempo (G3/G4) **comparten** ese costo.
-- **Alimento:** **factura real de Contegral** donde existe (2020–2023); antes, **estimado** con un modelo de concentrado ≈ f(maíz, soya) calibrado contra facturas (**R²=0,74**). Cada punto está marcado real/estimado.
+- **Alimento:** **factura real del proveedor** donde existe (2020–2023); antes, **estimado** con un modelo de concentrado ≈ f(maíz, soya) calibrado contra facturas (**R²=0,74**). Cada punto está marcado real/estimado.
 - **Mercado:** precio mayorista del huevo rojo en Medellín (**SIPSA-DANE**). El precio del productor = mayorista × factor de finca (~0,89).
 - **Límites declarados:** G1 (pre-2018) no tiene precio de mercado SIPSA; parte del alimento es estimado; SIPSA es mayorista, no minorista de plaza.
 
@@ -90,7 +90,7 @@ Python · pandas · Plotly · Streamlit · openpyxl
 
 ### What this is
 
-A real data-analysis case on **6 layer-hen lots** (G1–G6) of **Huevos Sinifana SAS**, Colombia, ~2016–2022. From real production records, feed invoices, wages and market prices, I rebuilt each lot's **cost and margin per egg** and turned it into an **interactive dashboard** anyone can understand — poultry background or not.
+A real data-analysis case on **6 layer-hen lots** (G1–G6) of **Huevos Sinifana SAS** (my own poultry operation), Colombia, 2016–2023. From real production records, feed invoices, wages and market prices, I rebuilt each lot's **cost and margin per egg** and turned it into an **interactive dashboard** anyone can understand — poultry background or not.
 
 > 🔗 **Live dashboard:** **https://huevos-sinifana-data-story.streamlit.app/**
 > ▶️ **Run locally:** `streamlit run app/app.py`
@@ -107,7 +107,7 @@ A real data-analysis case on **6 layer-hen lots** (G1–G6) of **Huevos Sinifana
 
 - **Production:** real weekly per-lot records.
 - **Cost/egg:** 7-item model; fixed cost (labor + services) shared across overlapping lots by daily egg production.
-- **Feed:** real **Contegral invoices** where available (2020–2023); otherwise **estimated** via a maize+soy model (**R²=0.74**). Each point is flagged real/estimated.
+- **Feed:** real **supplier invoices** where available (2020–2023); otherwise **estimated** via a maize+soy model (**R²=0.74**). Each point is flagged real/estimated.
 - **Market:** SIPSA-DANE wholesale red-egg price (Medellín); producer price = wholesale × farm factor (~0.89).
 - **Stated limits:** G1 predates SIPSA; some feed is estimated; SIPSA is wholesale, not retail.
 
@@ -125,7 +125,7 @@ streamlit run app/app.py
 **Andrés Estrada** · Análisis de datos / Data Analytics
 GitHub: [AndresTheAnalyst](https://github.com/AndresTheAnalyst) · estrada0788@gmail.com
 
-*Datos reales de Huevos Sinifana SAS, usados con permiso del propietario.
-Real data from Huevos Sinifana SAS, used with the owner's permission.*
+*Datos reales de mi propia operación avícola — Huevos Sinifana SAS.
+Real data from my own poultry operation — Huevos Sinifana SAS.*
 
 </div>

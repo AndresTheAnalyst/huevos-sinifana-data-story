@@ -146,7 +146,7 @@ st.markdown(f"""
     <div class="hero-tag">Sabor de campo cerca</div>
   </div>
 </div>
-<div class="hero-sub">{t("6 lotes de gallina ponedora · ~6 años · una granja en Caldas–Antioquia, Colombia. Mismo dueño, mismo manejo — pero el negocio cambió. <i>La gallina pone bien; el que no ves trabajar es tu margen.</i> Datos reales, usados con permiso del propietario.", "6 layer lots · ~6 years · one farm in Caldas–Antioquia, Colombia. Same owner, same management — yet the business changed. <i>The hen lays fine; the one you never watch working is your margin.</i> Real data, used with the owner's permission.")}</div>
+<div class="hero-sub">{t("6 lotes de gallina ponedora · 8 años (2016–2023) · una granja en Caldas–Antioquia, Colombia. Mismo dueño, mismo manejo — pero el negocio cambió. <i>La gallina pone bien; el que no ves trabajar es tu margen.</i> Datos reales de mi propia operación avícola.", "6 layer lots · 8 years (2016–2023) · one farm in Caldas–Antioquia, Colombia. Same owner, same management — yet the business changed. <i>The hen lays fine; the one you never watch working is your margin.</i> Real data from my own poultry operation.")}</div>
 """, unsafe_allow_html=True)
 st.write("")
 
@@ -156,6 +156,7 @@ yr_min = prod["date_start"].dropna().min()[:4]
 yr_max = prod["date_end"].dropna().max()[:4]
 feed_first, feed_last = feed.iloc[0]["price_per_kg"], feed.iloc[-1]["price_per_kg"]
 feed_infl = (feed_last / feed_first - 1) * 100
+feed_yr0, feed_yr1 = feed["month"].min()[:4], feed["month"].max()[:4]
 best = comp.loc[comp["margin"].idxmax()]
 worst = comp.loc[comp["margin"].idxmin()]
 
@@ -163,8 +164,8 @@ k1, k2, k3, k4 = st.columns(4)
 k1.metric(t("Lotes analizados", "Lots analyzed"), comp["lot"].nunique())
 k2.metric(t("Huevos producidos", "Eggs produced"), f"{total_eggs/1e6:.1f} M")
 k3.metric(t("Concentrado por kg", "Feed price per kg"), f"+{feed_infl:.0f}%",
-          help=t(f"Subió de {cop(feed_first)} a {cop(feed_last)} por kg entre {yr_min} y {yr_max}.",
-                 f"Rose from {cop(feed_first)} to {cop(feed_last)} per kg between {yr_min} and {yr_max}."))
+          help=t(f"Subió de {cop(feed_first)} a {cop(feed_last)} por kg entre {feed_yr0} y {feed_yr1}.",
+                 f"Rose from {cop(feed_first)} to {cop(feed_last)} per kg between {feed_yr0} and {feed_yr1}."))
 k4.metric(t("Margen por huevo", "Margin per egg"),
           f"{signed(worst['margin'])} … {signed(best['margin'])}",
           help=t(f"Del peor lote ({worst['lot']}) al mejor ({best['lot']}).",
@@ -374,13 +375,13 @@ elif seccion == S_COST:
         "⚫ **costo de producción** · 🔴 **precio de venta del productor** (lo que recibe la finca) · 🔵 **precio mayorista "
         "DANE-SIPSA** · 🟠 **precio del concentrado** (eje derecho). Donde la 🔴 va por encima de la ⚫, ese mes **dejó margen**. "
         "⚠️ 'DANE' y 'plaza mayorista' son la misma fuente (SIPSA); el productor recibe ese mayorista × factor (~0,89). "
-        "En la 🟠 del concentrado, los puntos **marrones** son meses con **factura real** (Contegral, 2020–2023) y los **claros** "
+        "En la 🟠 del concentrado, los puntos **marrones** son meses con **factura real** (2020–2023) y los **claros** "
         "son **estimados** (modelo maíz+soya). G1 no muestra precio de mercado (su época es anterior a SIPSA 2018).",
         f"**{selc} · {line_c}** — month by month during production (left axis COP/egg · right axis COP/kg). "
         "⚫ **production cost** · 🔴 **producer sale price** (what the farm gets) · 🔵 **DANE-SIPSA wholesale** · "
         "🟠 **feed price** (right axis). Where 🔴 sits above ⚫, that month **made margin**. "
         "⚠️ 'DANE' and 'wholesale plaza' are the same source (SIPSA); the producer gets that wholesale × factor (~0.89). "
-        "On the 🟠 feed line, **brown** dots are months with **real invoices** (Contegral, 2020–2023) and **light** dots are "
+        "On the 🟠 feed line, **brown** dots are months with **real invoices** (2020–2023) and **light** dots are "
         "**estimated** (maize+soy model). G1 shows no market price (its era predates SIPSA 2018)."))
 
 # ============ TAB 3 — MARKET ============
@@ -461,8 +462,8 @@ elif seccion == S_CMP:
 st.divider()
 st.caption(t(
     f"**{AUTHOR}** · Análisis de datos · GitHub: {GITHUB} · {CONTACT}  \n"
-    "Datos reales de Huevos Sinifana SAS (Las Marías, Caldas–Antioquia), usados con permiso del propietario. "
-    "Concentrado: factura real Contegral donde existe (2020–2023); antes, estimado con modelo maíz+soya (R²=0,74). Valores en COP.",
+    "Datos reales de mi propia operación avícola — Huevos Sinifana SAS (Las Marías, Caldas–Antioquia). "
+    "Concentrado: factura real del proveedor donde existe (2020–2023); antes, estimado con modelo maíz+soya (R²=0,74). Valores en COP.",
     f"**{AUTHOR}** · Data analytics · GitHub: {GITHUB} · {CONTACT}  \n"
-    "Real data from Huevos Sinifana SAS (Las Marías, Caldas–Antioquia), used with the owner's permission. "
-    "Feed: real Contegral invoices where available (2020–2023); earlier, estimated via a maize+soy model (R²=0.74). All values in COP."))
+    "Real data from my own poultry operation — Huevos Sinifana SAS (Las Marías, Caldas–Antioquia). "
+    "Feed: real supplier invoices where available (2020–2023); earlier, estimated via a maize+soy model (R²=0.74). All values in COP."))

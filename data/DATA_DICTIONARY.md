@@ -4,7 +4,7 @@
 > Diccionario de datos bilingüe. Valores monetarios en **pesos colombianos (COP)**.
 
 Source / Fuente: real records of **Huevos Sinifana SAS** (Las Marías farm, Caldas–Antioquia,
-Colombia), 6 layer lots (G1–G6), ~2016–2022. Used with the owner's permission.
+Colombia), 6 layer lots (G1–G6), 2016–2023. My own poultry operation / Operación avícola propia.
 
 ---
 

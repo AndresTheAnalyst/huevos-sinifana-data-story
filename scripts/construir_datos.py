@@ -142,7 +142,7 @@ def build_market_price():
 
 def build_feed_price():
     """feed_price.csv — precio del concentrado PONEDORA por mes. Estrategia honesta:
-       · FACTURA real (Contegral) donde exista: 2020-03 → 2023-08, ponderada por kg solo de productos PONEDORA.
+       · FACTURA real (del proveedor) donde exista: 2020-03 → 2023-08, ponderada por kg solo de productos PONEDORA.
        · si no hay factura, ESTIMADO por modelo maíz+soya (IndexMundi): 2016-05 → 2022-02.
        Real manda sobre estimado en los meses donde ambos existen."""
     # 1) estimado del modelo
@@ -236,7 +236,7 @@ DICTIONARY = """# Data Dictionary — Huevos Sinifana SAS
 > Diccionario de datos bilingüe. Valores monetarios en **pesos colombianos (COP)**.
 
 Source / Fuente: real records of **Huevos Sinifana SAS** (Las Marías farm, Caldas–Antioquia,
-Colombia), 6 layer lots (G1–G6), ~2016–2022. Used with the owner's permission.
+Colombia), 6 layer lots (G1–G6), 2016–2023. My own poultry operation / Operación avícola propia.
 
 ---
 
