@@ -141,7 +141,7 @@ st.markdown(f"""
 <div class="hero">
   <img src="data:image/png;base64,{_img_b64('logo-full.png')}" alt="Huevos del Vecino"/>
   <div>
-    <div class="hero-eyebrow">{t("Caso real · datos de producción 2016–2022", "Real case · production data 2016–2022")}</div>
+    <div class="hero-eyebrow">{t("Caso real · datos de producción 2016–2023", "Real case · production data 2016–2023")}</div>
     <div class="hero-title">Huevos Sinifana SAS</div>
     <div class="hero-tag">Sabor de campo cerca</div>
   </div>
