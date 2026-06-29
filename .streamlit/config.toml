@@ -1,0 +1,8 @@
+# Tema base — identidad "cuaderno de granja + instrumento de datos"
+[theme]
+base = "light"
+primaryColor = "#E6A23C"            # yema (acento)
+backgroundColor = "#FAF6EE"         # cáscara de huevo
+secondaryBackgroundColor = "#F1E9DA" # kraft claro (sidebar / cajas)
+textColor = "#2B2117"               # tinta (marrón-cuaderno)
+font = "sans serif"
