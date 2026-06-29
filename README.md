@@ -9,6 +9,8 @@
 *La gallina pone bien. El que no ves trabajar es tu margen.*
 *The hen lays just fine. The one you never watch working is your margin.*
 
+[![Dashboard en vivo / Live dashboard](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://huevos-sinifana-data-story.streamlit.app/)
+
 </div>
 
 ---
@@ -19,7 +21,7 @@
 
 Caso real de análisis de datos sobre **6 lotes de gallina ponedora** (G1–G6) de **Huevos Sinifana SAS**, ~2016–2022. A partir de registros de producción reales, facturas de alimento, salarios y precios de mercado, reconstruí el **costo y el margen por huevo** de cada lote y lo convertí en un **dashboard interactivo** que cualquiera —sepa o no de avicultura— puede entender.
 
-> 🔗 **Dashboard en vivo:** _(pega aquí tu link de Streamlit Cloud al desplegar)_
+> 🔗 **Dashboard en vivo:** **https://huevos-sinifana-data-story.streamlit.app/**
 > ▶️ **Correr local:** `streamlit run app/app.py`
 
 ## Lo que cuentan los datos (hallazgos)
@@ -90,7 +92,7 @@ Python · pandas · Plotly · Streamlit · openpyxl
 
 A real data-analysis case on **6 layer-hen lots** (G1–G6) of **Huevos Sinifana SAS**, Colombia, ~2016–2022. From real production records, feed invoices, wages and market prices, I rebuilt each lot's **cost and margin per egg** and turned it into an **interactive dashboard** anyone can understand — poultry background or not.
 
-> 🔗 **Live dashboard:** _(paste your Streamlit Cloud link after deploying)_
+> 🔗 **Live dashboard:** **https://huevos-sinifana-data-story.streamlit.app/**
 > ▶️ **Run locally:** `streamlit run app/app.py`
 
 ### What the data shows
