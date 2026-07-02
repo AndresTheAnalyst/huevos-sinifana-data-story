@@ -59,7 +59,7 @@ Cuatro vistas interactivas, bilingües (ES/EN):
 - **Costo por huevo:** modelo de 7 rubros. La **nómina y servicios** (costo fijo de la granja) se reparten entre la producción real de cada día → los lotes que corrieron al tiempo (G3/G4) **comparten** ese costo.
 - **Alimento:** **factura real del proveedor** donde existe (2020–2023); antes, **estimado** con un modelo de concentrado ≈ f(maíz, soya) calibrado contra facturas (**R²=0,74**). Cada punto está marcado real/estimado.
 - **Mercado:** precio mayorista del huevo rojo en Medellín (**SIPSA-DANE**). El precio del productor = mayorista × factor de finca (~0,89).
-- **Límites declarados:** G1 (pre-2018) no tiene precio de mercado SIPSA; parte del alimento es estimado; SIPSA es mayorista, no minorista de plaza.
+- **Límites declarados:** G1 (pre-2018) no tiene precio de mercado SIPSA; parte del alimento es estimado; SIPSA es mayorista, no minorista de plaza. Los registros semanales de postura llegan a oct-2022; los precios de alimento (facturas) a ago-2023.
 
 ## Estructura del repo
 
@@ -109,7 +109,7 @@ A real data-analysis case on **6 layer-hen lots** (G1–G6) of **Huevos Sinifana
 - **Cost/egg:** 7-item model; fixed cost (labor + services) shared across overlapping lots by daily egg production.
 - **Feed:** real **supplier invoices** where available (2020–2023); otherwise **estimated** via a maize+soy model (**R²=0.74**). Each point is flagged real/estimated.
 - **Market:** SIPSA-DANE wholesale red-egg price (Medellín); producer price = wholesale × farm factor (~0.89).
-- **Stated limits:** G1 predates SIPSA; some feed is estimated; SIPSA is wholesale, not retail.
+- **Stated limits:** G1 predates SIPSA; some feed is estimated; SIPSA is wholesale, not retail. Weekly lay records run through Oct-2022; feed prices (invoices) through Aug-2023.
 
 ### Run locally
 

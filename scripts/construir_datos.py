@@ -15,9 +15,10 @@ Genera en data/:
   - feed_price.csv          insumo: precio del concentrado por mes (factura/estimado)
   - DATA_DICTIONARY.md      diccionario de datos bilingüe ES/EN
 
-Honestidad: G5/G6 alimento de FACTURA real; G1-G4 alimento ESTIMADO (modelo de
-concentrado calibrado, R²=0.74). El costo fijo se reparte entre la producción real
-de la granja día a día (lotes traslapados G3/G4 comparten nómina/servicios).
+Honestidad: alimento con FACTURA real del proveedor donde existe (2020-03 → 2023-08);
+antes, ESTIMADO con modelo maíz+soya calibrado contra facturas (R²=0.74). El costo fijo
+se reparte entre la producción real de la granja día a día (lotes traslapados G3/G4
+comparten nómina/servicios).
 """
 from pathlib import Path
 import csv
@@ -203,6 +204,16 @@ def build_monthly(prod_df, feed_df, mkt_df):
     # descarta los meses-borde (arranque/cierre con pocos días) que disparan el costo/huevo a valores irreales
     peak = g_all.groupby("lot")["eggs"].transform("max")
     g = g_all[g_all["eggs"] >= 0.25 * peak].copy()
+    # y el primer/último mes del lote si fue PARCIAL (ej. G6 salió el 23-oct-2022: ese mes carga la
+    # nómina completa sobre medio mes de huevos → $/huevo irreal). Regla: borde con < 60% del mes vecino.
+    drop = []
+    for _, dl in g.groupby("lot"):
+        dl = dl.sort_values("month")
+        if len(dl) >= 2 and dl.iloc[0]["eggs"] < 0.6 * dl.iloc[1]["eggs"]:
+            drop.append((dl.iloc[0]["lot"], dl.iloc[0]["month"]))
+        if len(dl) >= 2 and dl.iloc[-1]["eggs"] < 0.6 * dl.iloc[-2]["eggs"]:
+            drop.append((dl.iloc[-1]["lot"], dl.iloc[-1]["month"]))
+    g = g[~g.apply(lambda r: (r["lot"], r["month"]) in drop, axis=1)].copy()
 
     rows = []
     for r in g.itertuples():
@@ -273,8 +284,10 @@ Costo por huevo y margen por lote/época. El costo fijo se reparte entre lotes t
 | `margin` | Margen neto / huevo | Net margin / egg |
 | `status` | Semáforo (green/yellow/red) | Traffic light |
 
-**Honesty note / Nota de honestidad:** G5/G6 feed cost = real invoices; G1–G4 = estimated
-(calibrated concentrate model, R²=0.74). G1 sale price estimated (pre-SIPSA).
+**Honesty note / Nota de honestidad:** feed price from real supplier invoices where they
+exist (2020-03 → 2023-08, covering G5–G6 fully and part of G3–G4); earlier months estimated
+with a maize+soy model calibrated against invoices (R²=0.74). G1 sale price estimated (pre-SIPSA). /
+Alimento con factura real donde existe (2020-03 → 2023-08); antes, estimado (R²=0,74).
 
 ## `egg_market_price.csv`
 Monthly wholesale red-egg price, Medellín market (SIPSA-DANE). /
@@ -312,6 +325,9 @@ Economía mes a mes por lote (modelo de costo por huevo a resolución mensual).
 
 **Nota / Note:** "precio DANE" y "plaza mayorista" son la misma fuente (SIPSA, publicada por el DANE).
 El precio del productor es ese mayorista × factor de finca (~0,89). Meses sin SIPSA (G1, pre-2018) → vacío.
+Se excluyen los meses PARCIALES de entrada/salida del lote (cargan gastos fijos completos sobre pocos
+días de producción y distorsionan el $/huevo). / Partial entry/exit months of each lot are excluded
+(they load a full month of fixed costs onto a few days of production, distorting cost per egg).
 """
 
 

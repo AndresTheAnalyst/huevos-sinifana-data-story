@@ -41,8 +41,10 @@ Costo por huevo y margen por lote/época. El costo fijo se reparte entre lotes t
 | `margin` | Margen neto / huevo | Net margin / egg |
 | `status` | Semáforo (green/yellow/red) | Traffic light |
 
-**Honesty note / Nota de honestidad:** G5/G6 feed cost = real invoices; G1–G4 = estimated
-(calibrated concentrate model, R²=0.74). G1 sale price estimated (pre-SIPSA).
+**Honesty note / Nota de honestidad:** feed price from real supplier invoices where they
+exist (2020-03 → 2023-08, covering G5–G6 fully and part of G3–G4); earlier months estimated
+with a maize+soy model calibrated against invoices (R²=0.74). G1 sale price estimated (pre-SIPSA). /
+Alimento con factura real donde existe (2020-03 → 2023-08); antes, estimado (R²=0,74).
 
 ## `egg_market_price.csv`
 Monthly wholesale red-egg price, Medellín market (SIPSA-DANE). /
@@ -80,3 +82,6 @@ Economía mes a mes por lote (modelo de costo por huevo a resolución mensual).
 
 **Nota / Note:** "precio DANE" y "plaza mayorista" son la misma fuente (SIPSA, publicada por el DANE).
 El precio del productor es ese mayorista × factor de finca (~0,89). Meses sin SIPSA (G1, pre-2018) → vacío.
+Se excluyen los meses PARCIALES de entrada/salida del lote (cargan gastos fijos completos sobre pocos
+días de producción y distorsionan el $/huevo). / Partial entry/exit months of each lot are excluded
+(they load a full month of fixed costs onto a few days of production, distorting cost per egg).

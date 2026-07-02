@@ -1,48 +1,32 @@
-# Publicar el portafolio — paso a paso
+# Publicación y mantenimiento
 
-Dos pasos: **(A)** subir la carpeta a un repo público de GitHub y **(B)** desplegar el dashboard en Streamlit Community Cloud (gratis). Al final tenés un **link en vivo** para pegar en LinkedIn.
+Este proyecto **ya está publicado**:
 
-> Esta carpeta es **autocontenida**: es la raíz del repo público. Las rutas del app (`app/app.py`) ya apuntan a `data/` y `app/assets/` relativo a la raíz, así que funciona tal cual en la nube.
+- **Repo público:** https://github.com/AndresTheAnalyst/huevos-sinifana-data-story
+- **Dashboard en vivo:** https://huevos-sinifana-data-story.streamlit.app/ (Streamlit Community Cloud, main file `app/app.py`)
 
----
-
-## A · Repo público en GitHub
-
-> ⚠️ El repo será **público** e incluye los datos reales de Huevos Sinifana (con permiso del propietario). Confirmá que estás de acuerdo antes de publicar.
-
-**Opción guiada (la hace El Salo con tu OK):** decime el nombre del repo y yo corro los comandos.
-
-**Opción manual:**
-1. En GitHub → **New repository** → nombre (ej. `huevos-sinifana-data-story`) → **Public** → *Create*.
-2. En una terminal, desde esta carpeta:
-   ```bash
-   cd portafolio-huevos-sinifana
-   git init -b main
-   git add .
-   git commit -m "Huevos Sinifana — data story (dashboard + notebook)"
-   git remote add origin https://github.com/AndresTheAnalyst/<nombre-del-repo>.git
-   git push -u origin main
-   ```
-3. (Recordá que los push grandes a veces fallan; los assets acá son chicos, debería ir liviano.)
+> La carpeta es **autocontenida**: es la raíz del repo. Las rutas del app (`app/app.py`) apuntan a `data/` y `app/assets/` relativo a la raíz, así que funciona igual local y en la nube.
 
 ---
 
-## B · Deploy en Streamlit Community Cloud (gratis)
+## Mantenimiento (el ciclo normal)
 
-1. Entrá a **https://share.streamlit.io** e iniciá sesión con tu cuenta de **GitHub**.
-2. Botón **"Create app"** → **"Deploy a public app from GitHub"**.
-3. Completá:
-   - **Repository:** `AndresTheAnalyst/<nombre-del-repo>`
-   - **Branch:** `main`
-   - **Main file path:** `app/app.py`
-4. **Deploy**. Tarda 1–2 min en instalar `requirements.txt` y arrancar.
-5. Te queda un link tipo `https://<algo>.streamlit.app` — **ese es el que pegás en LinkedIn**.
-6. Copiá ese link y pegámelo: lo pongo en el README (donde dice *"pega aquí tu link de Streamlit Cloud"*).
+1. Editar lo que sea (app, datos, README).
+2. Si cambió la **fuente de datos**: correr `python scripts/construir_datos.py` (regenera los CSV de `data/`) y, si aplica, `python notebooks/_make_figures.py` (regenera las figuras del notebook).
+3. Probar local: `streamlit run app/app.py`.
+4. `git add . && git commit -m "..." && git push` → Streamlit Cloud **redespliega solo** en 1–2 min.
 
----
+El tablero corre en modo **solo lectura** (no escribe nada).
 
-## Mantenimiento
+## Visibilidad (importante)
 
-- Cada vez que hagas `git push` a `main`, Streamlit Cloud **redespliega solo**.
-- Para refrescar los datos: corré `python scripts/construir_datos.py`, commiteá y pusheá.
-- El tablero corre en modo **solo lectura** (no escribe nada).
+La app debe estar **pública** para que cualquiera la vea sin iniciar sesión. Para verificarlo:
+abrir el link en una **ventana de incógnito** — debe cargar el dashboard directo, sin pedir login.
+Si pide login: en https://share.streamlit.io → menú de la app (⋮) → **Settings** → **Sharing** →
+activar que cualquiera con el link pueda verla (público).
+
+## Si hay que re-desplegar desde cero
+
+1. https://share.streamlit.io → **Create app** → *Deploy a public app from GitHub*.
+2. Repository `AndresTheAnalyst/huevos-sinifana-data-story` · Branch `main` · Main file `app/app.py`.
+3. Deploy (instala `requirements.txt` y arranca en 1–2 min).

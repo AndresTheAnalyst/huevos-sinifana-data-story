@@ -3,8 +3,8 @@
 Huevos Sinifana — Interactive data story (bilingual ES/EN).
 Streamlit dashboard.  Run:  streamlit run app/app.py
 
-6 layer lots, ~6 years, one farm: what happened to the egg margin.
-6 lotes, ~6 años, una sola granja: qué le pasó al margen del huevo.
+6 layer lots, 8 years (2016–2023), one farm: what happened to the egg margin.
+6 lotes, 8 años (2016–2023), una sola granja: qué le pasó al margen del huevo.
 """
 from pathlib import Path
 import base64
@@ -152,8 +152,6 @@ st.write("")
 
 # ---------------- KPIs ----------------
 total_eggs = int(prod["eggs"].sum())
-yr_min = prod["date_start"].dropna().min()[:4]
-yr_max = prod["date_end"].dropna().max()[:4]
 feed_first, feed_last = feed.iloc[0]["price_per_kg"], feed.iloc[-1]["price_per_kg"]
 feed_infl = (feed_last / feed_first - 1) * 100
 feed_yr0, feed_yr1 = feed["month"].min()[:4], feed["month"].max()[:4]
@@ -173,22 +171,25 @@ k4.metric(t("Margen por huevo", "Margin per egg"),
 
 st.divider()
 
-S_PROD = "🐔 " + t("Producción", "Production")
-S_COST = "💵 " + t("Costos", "Costs")
-S_MKT = "📈 " + t("Mercado", "Market")
-S_CMP = "🚦 " + t("Comparativo", "Comparison")
-# Navegación por radio (conserva la sección activa entre re-ejecuciones; st.tabs se reiniciaba a la 1ra)
-seccion = st.radio(t("Sección", "Section"), [S_PROD, S_COST, S_MKT, S_CMP],
-                   horizontal=True, label_visibility="collapsed")
+# Navegación por radio (conserva la sección activa entre re-ejecuciones; st.tabs se reiniciaba a la 1ra).
+# Al traducir el label/opciones el widget se recrea y Streamlit limpiaría su estado: la auto-asignación
+# del key lo protege, y el widget nuevo adopta ese valor — cambiar el idioma NO resetea la sección.
+SECCIONES = {"prod": "🐔 " + t("Producción", "Production"), "cost": "💵 " + t("Costos", "Costs"),
+             "mkt": "📈 " + t("Mercado", "Market"), "cmp": "🚦 " + t("Comparativo", "Comparison")}
+st.session_state.setdefault("seccion", "prod")
+st.session_state["seccion"] = st.session_state["seccion"]
+seccion = st.radio(t("Sección", "Section"), list(SECCIONES), format_func=SECCIONES.get,
+                   horizontal=True, label_visibility="collapsed", key="seccion")
 st.write("")
 
 # ============ TAB 1 — PRODUCTION ============
-if seccion == S_PROD:
+if seccion == "prod":
     st.subheader(t("¿Cómo puso cada lote? Real vs. el estándar de su genética",
                    "How did each lot lay? Actual vs. its breed standard"))
     lots = sorted(prod["lot"].unique())
-    sel = st.selectbox(t("Elegí un lote", "Pick a lot"), lots,
-                       index=lots.index("G5") if "G5" in lots else 0)
+    st.session_state.setdefault("lote_prod", "G5" if "G5" in lots else lots[0])
+    st.session_state["lote_prod"] = st.session_state["lote_prod"]
+    sel = st.selectbox(t("Elegí un lote", "Pick a lot"), lots, key="lote_prod")
     d = prod[(prod["lot"] == sel) & (prod["eggs"] > 0)].copy().sort_values("week")
     line_name = d["line"].iloc[0] if len(d) else ""
     plena = d[(d["week"] >= 22) & (d["week"] <= 60)]
@@ -252,7 +253,7 @@ if seccion == S_PROD:
         "When the actual sits on or above the standard, husbandry is on point."))
 
 # ============ TAB 2 — COSTS ============
-elif seccion == S_COST:
+elif seccion == "cost":
     st.subheader(t("¿En qué se va el costo de cada huevo?", "Where does each egg's cost go?"))
     names = {"cost_feed": t("Alimento", "Feed"), "cost_labor": t("Mano de obra", "Labor"),
              "cost_other": t("Otros", "Other")}
@@ -332,9 +333,11 @@ elif seccion == S_COST:
     # ----- evolución MES A MES por lote (estilo Mercado) -----
     st.markdown("---")
     lots_c = list(comp["lot"])
+    st.session_state.setdefault("lote_costos", "G5" if "G5" in lots_c else lots_c[0])
+    st.session_state["lote_costos"] = st.session_state["lote_costos"]
     selc = st.selectbox(t("Elegí un lote para ver su evolución mensual",
                           "Pick a lot to see its monthly evolution"),
-                        lots_c, index=lots_c.index("G5") if "G5" in lots_c else 0, key="lote_costos")
+                        lots_c, key="lote_costos")
     dm = lmon[lmon["lot"] == selc].sort_values("month")
     line_c = comp.set_index("lot").loc[selc, "line"]
     # rangos Y ajustados a los datos reales de cada eje (para que ambos se lean bien)
@@ -385,7 +388,7 @@ elif seccion == S_COST:
         "**estimated** (maize+soy model). G1 shows no market price (its era predates SIPSA 2018)."))
 
 # ============ TAB 3 — MARKET ============
-elif seccion == S_MKT:
+elif seccion == "mkt":
     st.subheader(t("El insumo subió y el mercado manda", "Input prices rose, and the market rules"))
     ca, cb = st.columns(2)
     with ca:
@@ -396,7 +399,7 @@ elif seccion == S_MKT:
         inv = feed[feed["source"] == "invoice"]
         fig.add_trace(go.Scatter(x=inv["month"], y=inv["price_per_kg"], mode="markers",
                                  name=t("Mes con factura real", "Real-invoice month"),
-                                 marker=dict(color="#0F766E", size=7)))
+                                 marker=dict(color="#41322F", size=7)))
         fig.update_layout(height=390, margin=dict(t=44, b=8),
                           legend=dict(orientation="h", yanchor="top", y=-0.18, x=0),
                           title=dict(text=t("Precio del concentrado ponedora (COP/kg)", "Layer-feed price (COP/kg)"),
@@ -404,10 +407,10 @@ elif seccion == S_MKT:
         st.plotly_chart(fig, use_container_width=True)
         n_inv = int((feed["source"] == "invoice").sum())
         st.caption(t(
-            f"+{feed_infl:.0f}% en {yr_min}–{yr_max}. Solo {n_inv} de {len(feed)} meses vienen de **factura real** "
-            "(puntos verdes, 2020–2022); el resto es un **modelo de concentrado calibrado** (R²=0,74). Honestidad ante todo.",
-            f"+{feed_infl:.0f}% over {yr_min}–{yr_max}. Only {n_inv} of {len(feed)} months come from **real invoices** "
-            "(green dots, 2020–2022); the rest is a **calibrated feed model** (R²=0.74). Full transparency."))
+            f"+{feed_infl:.0f}% en {feed_yr0}–{feed_yr1}. {n_inv} de {len(feed)} meses vienen de **factura real** "
+            "(puntos marrones, 2020–2023); el resto es un **modelo de concentrado calibrado** (R²=0,74). Honestidad ante todo.",
+            f"+{feed_infl:.0f}% over {feed_yr0}–{feed_yr1}. {n_inv} of {len(feed)} months come from **real invoices** "
+            "(brown dots, 2020–2023); the rest is a **calibrated feed model** (R²=0.74). Full transparency."))
     with cb:
         mg = mkt.dropna(subset=["price_avg"]).copy()
         fig = px.line(mg, x="month", y="price_avg",
@@ -431,7 +434,7 @@ elif seccion == S_MKT:
     st.plotly_chart(fig, use_container_width=True)
 
 # ============ TAB 4 — COMPARISON ============
-elif seccion == S_CMP:
+elif seccion == "cmp":
     st.subheader(t("El veredicto: ¿qué lote dejó plata?", "The verdict: which lot made money?"))
     cc = comp.copy()
     cc["color"] = cc["status"].map(STATUS_COLOR)

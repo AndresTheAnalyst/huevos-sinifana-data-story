@@ -1,8 +1,8 @@
-# Tema base — identidad "cuaderno de granja + instrumento de datos"
+# Tema base — paleta real de la marca "Huevos del Vecino" (coincide con el CSS del app)
 [theme]
 base = "light"
-primaryColor = "#E6A23C"            # yema (acento)
-backgroundColor = "#FAF6EE"         # cáscara de huevo
-secondaryBackgroundColor = "#F1E9DA" # kraft claro (sidebar / cajas)
-textColor = "#2B2117"               # tinta (marrón-cuaderno)
+primaryColor = "#E5B441"             # yema (acento: selección, focus, spinner)
+backgroundColor = "#FBF8F2"          # papel claro de marca (mismo --paper del CSS)
+secondaryBackgroundColor = "#F5EDDE" # kraft claro (sidebar / cajas)
+textColor = "#41322F"                # marrón de marca
 font = "sans serif"
